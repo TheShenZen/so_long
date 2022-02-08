@@ -6,13 +6,13 @@
 /*   By: seciurte <seciurte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 13:40:16 by seciurte          #+#    #+#             */
-/*   Updated: 2021/11/01 16:28:00 by seciurte         ###   ########.fr       */
+/*   Updated: 2021/11/10 15:59:47 by seciurte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int		get_range(char **map, int x, int y)
+int	get_range(char **map, int x, int y)
 {
 	if (map[x][y] == '1')
 	{
@@ -30,7 +30,7 @@ int		get_range(char **map, int x, int y)
 			return (rdm(0, 1));
 	}
 	else
-			return (rdm(8, 9));
+		return (rdm(8, 9));
 }
 
 void	draw_sprite(t_win *win, int x, int y, int spt)

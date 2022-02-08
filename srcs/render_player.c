@@ -6,7 +6,7 @@
 /*   By: seciurte <seciurte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:42:39 by seciurte          #+#    #+#             */
-/*   Updated: 2021/10/23 19:07:22 by seciurte         ###   ########.fr       */
+/*   Updated: 2021/11/11 18:17:25 by seciurte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ void	render_player(t_win *win)
 	}
 	if (win->key->pressed)
 		win->key->delay--;
-	draw_sprite(win, win->player->x * SPT_SIZE, win->player->y * SPT_SIZE, win->player->index);
-	if (time % ANIM_SPEED == 0)
+	draw_sprite(win, win->player->x * SPT_SIZE,
+		win->player->y * SPT_SIZE, win->player->index);
+	if (time % ANIM_SPEED == 0 && BONUS)
 	{
 		win->player->index = ((win->player->index + 1) % 19);
 		if (win->player->index < 16)

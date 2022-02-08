@@ -6,7 +6,7 @@
 /*   By: seciurte <seciurte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 10:53:46 by seciurte          #+#    #+#             */
-/*   Updated: 2021/10/27 17:53:47 by seciurte         ###   ########.fr       */
+/*   Updated: 2021/11/10 15:48:57 by seciurte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	init_map(t_win *win)
 {
 	win->map = malloc(sizeof(t_map));
 	if (win->map == NULL)
-		error(win, MEMALLOC_ERR);
+		error(MEMALLOC_ERR);
 	win->map->map = NULL;
 	win->map->sprites_map = NULL;
 	win->map->map_size[0] = 0;
@@ -27,7 +27,7 @@ static void	init_frame(t_win *win)
 {
 	win->frame = malloc(sizeof(t_frame));
 	if (win->frame == NULL)
-		error(win, MEMALLOC_ERR);
+		error(MEMALLOC_ERR);
 	win->frame->img = mlx_new_image(win->mlx_ptr,
 			win->map->map_size[0] * SPT_SIZE,
 			win->map->map_size[1] * SPT_SIZE);
@@ -50,7 +50,7 @@ void	init_sprites(t_win *win)
 {
 	win->sprites = malloc(sizeof(t_sprite *) * 27);
 	if (win->sprites == NULL)
-		error(win, MEMALLOC_ERR);
+		error(MEMALLOC_ERR);
 	win->sprites[0] = import_sprite(win, "game_assets/top_wall1.xpm");
 	win->sprites[1] = import_sprite(win, "game_assets/top_wall2.xpm");
 	win->sprites[2] = import_sprite(win, "game_assets/right_wall1.xpm");
@@ -80,22 +80,21 @@ t_win	*init_win(char **av)
 
 	win = malloc(sizeof(t_win));
 	if (win == NULL)
-		error(win, MEMALLOC_ERR);
+		error(MEMALLOC_ERR);
 	set_win_to_zero(win);
 	init_map(win);
 	get_map_info(av[1], win);
 	win->mlx_ptr = mlx_init();
 	if (win->mlx_ptr == NULL)
-		error(win, MEMALLOC_ERR);
+		error(MEMALLOC_ERR);
 	win->mlx_win = mlx_new_window(win->mlx_ptr,
 			win->map->map_size[0] * SPT_SIZE,
 			win->map->map_size[1] * SPT_SIZE, "so_long");
 	if (win->mlx_win == NULL)
-		error(win, MEMALLOC_ERR);
+		error(MEMALLOC_ERR);
 	init_sprites(win);
 	init_frame(win);
 	init_player(win);
-	init_exit(win);
 	init_key(win);
 	return (win);
 }

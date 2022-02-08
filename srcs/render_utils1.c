@@ -6,7 +6,7 @@
 /*   By: seciurte <seciurte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 13:15:35 by seciurte          #+#    #+#             */
-/*   Updated: 2021/11/01 17:19:17 by seciurte         ###   ########.fr       */
+/*   Updated: 2021/11/10 15:59:34 by seciurte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	draw_pixel(t_win *win, int x, int y, int color)
 	char	*dst;
 
 	dst = win->frame->addr + (y * win->frame->ll + x * (win->frame->bpp / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 }
 
-int		get_pixel(t_sprite *sprite, int x, int y)
+int	get_pixel(t_sprite *sprite, int x, int y)
 {
 	char	*pixel;
 
@@ -39,16 +39,17 @@ t_sprite	*import_sprite(t_win *win, char	*path)
 
 	sprite = malloc(sizeof(t_sprite));
 	if (sprite == NULL)
-		error(win, MEMALLOC_ERR);
-	sprite->img = mlx_xpm_file_to_image(win->mlx_ptr, path, &sprite->iw, &sprite->ih);
+		error(MEMALLOC_ERR);
+	sprite->img = mlx_xpm_file_to_image(win->mlx_ptr, path,
+			&sprite->iw, &sprite->ih);
 	if (sprite->img == NULL)
-		error(win, MEMALLOC_ERR);
+		error(MEMALLOC_ERR);
 	if (sprite->iw != 16 || sprite->ih != 16)
-		error(win, SPRITE_ERR);
+		error(SPRITE_ERR);
 	sprite->addr = mlx_get_data_addr(sprite->img, &sprite->bpp, &sprite->ll,
-								&sprite->endian);
+			&sprite->endian);
 	if (sprite->addr == NULL)
-		error(win, MEMALLOC_ERR);
+		error(MEMALLOC_ERR);
 	return (sprite);
 }
 

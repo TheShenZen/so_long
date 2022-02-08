@@ -6,7 +6,7 @@
 /*   By: seciurte <seciurte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 17:02:17 by seciurte          #+#    #+#             */
-/*   Updated: 2021/10/23 18:52:25 by seciurte         ###   ########.fr       */
+/*   Updated: 2021/11/10 15:58:14 by seciurte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	get_nbr_of_doors(t_win *win)
 	}
 	win->exit = malloc(sizeof(t_exit) * win->nb_exits);
 	if (win->exit == NULL)
-		error(win, MEMALLOC_ERR);
+		error(MEMALLOC_ERR);
 }
 
 void	get_door(t_win *win)
@@ -67,15 +67,18 @@ void	render_exit(t_win *win)
 
 	i = 0;
 	if (win->nb_collectibles == 0)
+	{
 		while (i < win->nb_exits)
 		{
 			win->exit[i].open = 21;
 			i++;
 		}
+	}
 	i = 0;
 	while (i < win->nb_exits)
 	{
-		draw_sprite(win, win->exit[i].x * SPT_SIZE, win->exit[i].y * SPT_SIZE, win->exit[i].open);
+		draw_sprite(win, win->exit[i].x * SPT_SIZE,
+			win->exit[i].y * SPT_SIZE, win->exit[i].open);
 		i++;
 	}
 }

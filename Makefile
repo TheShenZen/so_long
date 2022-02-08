@@ -6,7 +6,7 @@
 #    By: seciurte <seciurte@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/20 11:48:55 by seciurte          #+#    #+#              #
-#    Updated: 2021/11/02 14:35:47 by seciurte         ###   ########.fr        #
+#    Updated: 2021/11/12 16:31:38 by seciurte         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,22 +44,27 @@ BUILD			=	$(CC) $(CFLAGS) ${IFLAGS} $(OBJ) $(LFLAGS) $(LIB) -o $(NAME) ${MLX}
 
 SRC			= 	so_long.c\
 				events.c\
-				moves_counter.c\
+				moves_counter.c moves_counter_bonus.c\
 				render_utils1.c render_utils2.c\
-				render_map.c render_collectibles.c render_player.c render_exit.c render_ennemy.c\
+				render_map.c render_collectibles.c render_player.c render_exit.c render_ennemy_bonus.c\
 				player_movement.c skulls_movement.c\
 				init_structs1.c init_structs2.c\
 				utils.c\
 				handle_error.c\
-				map.c
+				free_structs.c\
+				map.c check_map.c
 
 OBJ			=	$(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
 
-OBJ_BONUS	=	$(addprefix $(OBJ_DIR_BONUS)/, $(SRC:%.c=%.o))
+OBJ_BONUS	=	$(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
 
 # Compilation flags -------------------------------------------------
 
-CFLAGS		=	-Wall -Wextra -Werror -g3 -fsanitize=address
+D_NO_BONUS  =	-DBONUS=0
+
+D_BONUS		=	-DBONUS=1
+
+CFLAGS		=	-Wall -Wextra -Werror #-ggdb3
 
 LFLAGS		=	$(foreach dir, $(LIB_DIR), -L $(dir))
 
@@ -86,7 +91,7 @@ _WHITE=\033[1;37m
 
 all:
 	@echo "\n$(_BLUE)___$(NAME) Setting___\n$(_WHITE)"
-	@make $(NAME)
+	@make BONUS=$(D_NO_BONUS) $(NAME)
 
 bonus: fclean
 	@echo "\n$(_BLUE)___$(NAME) Setting___\n$(_WHITE)"
@@ -135,3 +140,5 @@ fclean:	clean
 	@echo "$(_GREEN)DONE$(_WHITE)\n-----"
 
 .PHONY: all bonus show install re-install re clean flcean
+
+#Credit to @gozsertt

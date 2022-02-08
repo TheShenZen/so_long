@@ -6,7 +6,7 @@
 /*   By: seciurte <seciurte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:11:00 by seciurte          #+#    #+#             */
-/*   Updated: 2021/10/27 15:17:58 by seciurte         ###   ########.fr       */
+/*   Updated: 2021/11/11 18:31:45 by seciurte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ static void	set_collectible(t_collectible *clb, int i, int j)
 	clb->x = i;
 	clb->y = j;
 	clb->picked = 0;
-	clb->index = rdm(12, 15);
+	if (BONUS)
+		clb->index = rdm(12, 15);
+	else
+		clb->index = 12;
 }
 
 void	get_collectibles(t_win *win)
@@ -49,10 +52,10 @@ void	get_collectibles(t_win *win)
 	int		k;
 
 	win->nb_collectibles = count_collectibles(win->map->map);
-	win->collectibles = malloc(sizeof(t_collectible) *\
-	 (win->nb_collectibles + 1));
+	win->collectibles = malloc(sizeof(t_collectible) * \
+		(win->nb_collectibles + 1));
 	if (win->collectibles == NULL)
-		return ;
+		error(MEMALLOC_ERR);
 	j = -1;
 	k = 0;
 	while (win->map->map[++j] != NULL)
@@ -81,43 +84,17 @@ int	render_collectibles(t_win *win)
 	{
 		if (win->collectibles[i].picked == 0)
 		{
-			draw_sprite(win, win->collectibles[i].x * SPT_SIZE, win->collectibles[i].y * SPT_SIZE, win->collectibles[i].index);
-			if (time % ANIM_SPEED == 0)
+			draw_sprite(win, win->collectibles[i].x * SPT_SIZE,
+				win->collectibles[i].y * SPT_SIZE,
+				win->collectibles[i].index);
+			if (time % ANIM_SPEED == 0 && BONUS)
 			{
-				win->collectibles[i].index = ((win->collectibles[i].index + 1) % 15);
+				win->collectibles[i].index = \
+				((win->collectibles[i].index + 1) % 15);
 				if (win->collectibles[i].index < 12)
 					win->collectibles[i].index += 12;
 			}
 		}
-		i++;
-	}
-	return (0);
-}
-
-int	render_all(t_win *win)
-{
-	int			i;
-
-	render_map(win);
-	render_collectibles(win);
-	render_exit(win);
-	render_player(win);
-	render_skulls(win);
-	mlx_put_image_to_window(win->mlx_ptr, win->mlx_win, win->frame->img, 0, 0);
-	i = 0;
-	while (i < win->nb_skulls)
-	{
-		if (win->skulls[i].x == win->player->x && 
-			win->skulls[i].y == win->player->y)
-			exit(EXIT_SUCCESS);
-		i++;
-	}
-	i = 0;
-	render_move_counter(win);
-	while (i < win->nb_exits)
-	{
-		if (win->exit[i].x == win->player->x && win->exit[i].y == win->player->y && win->nb_collectibles == 0)
-			exit(EXIT_SUCCESS);
 		i++;
 	}
 	return (0);

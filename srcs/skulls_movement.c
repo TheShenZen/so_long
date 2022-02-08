@@ -6,7 +6,7 @@
 /*   By: seciurte <seciurte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 20:07:33 by seciurte          #+#    #+#             */
-/*   Updated: 2021/10/27 14:57:46 by seciurte         ###   ########.fr       */
+/*   Updated: 2021/11/10 16:02:11 by seciurte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static int	skull_overlap(int k, t_win *win, int vx, int vy)
 	i = 0;
 	while (i < win->nb_skulls)
 	{
-		if (i != k && win->skulls[k].x + vx == win->skulls[i].x && 
-			win->skulls[k].y+ vy == win->skulls[i].y)
+		if (i != k && win->skulls[k].x + vx == win->skulls[i].x
+			&& win->skulls[k].y + vy == win->skulls[i].y)
 			return (1);
 		i++;
 	}
@@ -29,9 +29,9 @@ static int	skull_overlap(int k, t_win *win, int vx, int vy)
 
 static int	try_move(int k, t_win *win, int vx, int vy)
 {
-	if (win->map->map[win->skulls[k].y + vy][win->skulls[k].x + vx] != '1' && 
-		!skull_overlap(k, win, vx, vy))
-		return (absol((win->skulls[k].x + vx) - win->player->x) +\
+	if (win->map->map[win->skulls[k].y + vy][win->skulls[k].x + vx] != '1'
+		&& !skull_overlap(k, win, vx, vy))
+		return (absol((win->skulls[k].x + vx) - win->player->x) + \
 			 absol((win->skulls[k].y + vy) - win->player->y));
 	return (9999);
 }
@@ -57,9 +57,9 @@ int	get_smallest_dist(int *distances)
 	i = 0;
 	while (i < 4)
 	{
-		if (distances[i] >=0 && distances[i] <= distances[(i + 1) % 4] && 
-			distances[i] <= distances[(i + 2) % 4] && 
-			distances[i] <= distances[(i + 3) % 4])
+		if (distances[i] >= 0 && distances[i] <= distances[(i + 1) % 4]
+			&& distances[i] <= distances[(i + 2) % 4]
+			&& distances[i] <= distances[(i + 3) % 4])
 		{
 			free(distances);
 			return (i);
@@ -83,24 +83,4 @@ void	move_skull(int k, t_win *win)
 		win->skulls[k].x += -1;
 	else if (rt == 3)
 		win->skulls[k].x += 1;
-}
-
-int	is_in_aggro_range(int k, t_win *win)
-{
-	int		*rt;
-	int		i;
-
-	rt = distances(k, win);
-	i = 0;
-	while (i < 4)
-	{
-		if (rt[i] <= AGGRO_RANGE)
-		{
-			free(rt);
-			return (1);
-		}
-		i++;
-	}
-	free(rt);
-	return (0);
 }

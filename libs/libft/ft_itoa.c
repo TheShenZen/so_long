@@ -39,6 +39,7 @@ char	*ft_itoa(int n)
 	str = malloc(sizeof(char) * len);
 	if (str == NULL)
 		return (NULL);
+	ft_memset(str, '\0', len);
 	if (nbr < 0)
 	{
 		str[0] = '-';
